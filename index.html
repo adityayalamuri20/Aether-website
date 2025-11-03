@@ -1,0 +1,1309 @@
+F<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project AETHER | AI-Powered Emergency Response</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a1f2e;
+            --bg-card: #232936;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, var(--border) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Section */
+        .section {
+            padding: 120px 0;
+        }
+
+        .section-header {
+            max-width: 800px;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-light);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 32px;
+            margin: 80px 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 40px 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-light);
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin: 80px 0;
+        }
+
+        .content-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .content-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .content-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--accent-light);
+        }
+
+        .content-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .content-card ul {
+            list-style: none;
+        }
+
+        .content-card li {
+            padding: 10px 0 10px 28px;
+            color: var(--text-secondary);
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .content-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 48px;
+            margin: 80px 0;
+        }
+
+        .col-card {
+            background: var(--bg-card);
+            padding: 48px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .col-card h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: var(--accent-light);
+        }
+
+        .col-card p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+
+        .col-card ul {
+            list-style: none;
+        }
+
+        .col-card li {
+            padding: 12px 0 12px 32px;
+            color: var(--text-secondary);
+            position: relative;
+            line-height: 1.7;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .col-card li:last-child {
+            border-bottom: none;
+        }
+
+        .col-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Highlight Box */
+        .highlight {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.05));
+            border-left: 4px solid var(--accent);
+            padding: 48px;
+            border-radius: 12px;
+            margin: 80px 0;
+        }
+
+        .highlight p {
+            font-size: 1.25rem;
+            line-height: 1.9;
+            color: var(--text-primary);
+        }
+
+        .highlight strong {
+            color: var(--accent-light);
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin: 80px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--bg-secondary);
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-light);
+            border-bottom: 2px solid var(--accent);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Chart Container */
+        .chart-wrapper {
+            background: var(--bg-card);
+            padding: 48px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin: 80px 0;
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 80px 0;
+            padding-left: 48px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 64px;
+            padding-left: 48px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -54px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 4px solid var(--bg-primary);
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 12px;
+        }
+
+        .timeline-meta {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .timeline-content ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .timeline-content li {
+            padding: 8px 0 8px 28px;
+            color: var(--text-secondary);
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .timeline-content li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section {
+                padding: 80px 0;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 32px;
+            }
+
+            .timeline-item {
+                padding-left: 32px;
+            }
+
+            .col-card {
+                padding: 32px;
+            }
+
+            .highlight {
+                padding: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <h1>AETHER</h1>
+            <p class="hero-subtitle">AI-Powered Autonomous Drone Ecosystem for National Emergency Response</p>
+            <a href="#solution" class="cta-button">Explore the Solution</a>
+
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section class="section" id="problem">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">The Challenge</span>
+                <h2 class="section-title">India's Disaster Response Crisis</h2>
+                <p class="section-description">Traditional emergency response mechanisms are increasingly strained by escalating disaster frequency and intensity, resulting in massive economic losses and preventable casualties.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">₹1.22L Cr</div>
+                    <div class="stat-label">Karnataka Damages (2015-2021)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">80%</div>
+                    <div class="stat-label">Drought-Prone Area</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Hours</div>
+                    <div class="stat-label">Response Delay</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">₹20,000 Cr</div>
+                    <div class="stat-label">Infrastructure Loss</div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <h3>Critical Limitations</h3>
+                    <ul>
+                        <li>Accessibility Bottleneck: Ground teams take hours or days to reach disaster zones due to destroyed infrastructure</li>
+                        <li>Communication Breakdown: Network failures prevent effective coordination between response agencies</li>
+                        <li>First Responder Risk: Personnel face life-threatening situations in unstable structures and hazardous zones</li>
+                        <li>Limited Intelligence: Incomplete situational awareness delays effective decision-making</li>
+                    </ul>
+                </div>
+                <div class="col-card">
+                    <h3>The Golden Hour Challenge</h3>
+                    <ul>
+                        <li>Critical Window: The first 60 minutes determine survival rates, yet traditional methods often miss this entirely</li>
+                        <li>Delayed Assessment: Manual processes consume valuable time during the most critical phase</li>
+                        <li>Incomplete Data: Commanders make decisions based on outdated or fragmentary information</li>
+                        <li>Inefficient Allocation: Inability to rapidly assess priorities leads to resource misdeployment</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight">
+                <p><strong>The Core Problem:</strong> There is an urgent need for an intelligent, autonomous, and resilient system that can navigate, coordinate, and operate with minimal human intervention even under extreme conditions—serving as the first line of response before human teams arrive.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution -->
+    <section class="section" id="solution" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">The Solution</span>
+                <h2 class="section-title">How AETHER Solves the Problem</h2>
+                <p class="section-description">A comprehensive AI-native Drone as First Responder platform combining autonomous drones, intelligent software, and Drones-as-a-Service delivery model.</p>
+            </div>
+
+            <div class="highlight">
+                <p>AETHER functions as a national nervous system for emergency response. Drones are pre-positioned in Drone-in-a-Box stations across high-risk zones. When an emergency is detected, the nearest drone launches autonomously within 60 seconds, providing live aerial intelligence before human responders arrive on scene.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Cognitive Navigation</h3>
+                    <p>GPS-independent operation using multi-sensor fusion combining LiDAR, IMU, and stereo vision.</p>
+                    <ul>
+                        <li>Functions in collapsed buildings and urban canyons</li>
+                        <li>Operates under dense forest canopies</li>
+                        <li>Works in communication-jammed zones</li>
+                        <li>Uses SLAM and EKF for precise positioning</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Swarm Intelligence</h3>
+                    <p>Multiple drones coordinate as single intelligent entity through decentralized decision-making.</p>
+                    <ul>
+                        <li>42% faster area coverage through parallel search</li>
+                        <li>Dynamic task reallocation based on discoveries</li>
+                        <li>Resilient mesh networking for data relay</li>
+                        <li>Fault-tolerant if individual units fail</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Multi-Modal Analytics</h3>
+                    <p>AI-driven engine converts raw sensor data into actionable intelligence.</p>
+                    <ul>
+                        <li>Automated victim detection via thermal imaging</li>
+                        <li>Rapid damage assessment using LiDAR</li>
+                        <li>Predictive threat modeling for fires and landslides</li>
+                        <li>2D/3D mapping within minutes</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Drone-in-a-Box</h3>
+                    <p>Automated deployment infrastructure for 24/7 readiness and instant response.</p>
+                    <ul>
+                        <li>Weather-proof charging stations in high-risk zones</li>
+                        <li>Integration with 112/911 dispatch systems</li>
+                        <li>Autonomous launch under 60 seconds</li>
+                        <li>Continuous charging and maintenance</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Command Platform</h3>
+                    <p>Unified cloud-based control software for comprehensive fleet management.</p>
+                    <ul>
+                        <li>Single dashboard for multi-drone operations</li>
+                        <li>Low-latency HD video streaming to field devices</li>
+                        <li>One-to-many pilot capability</li>
+                        <li>Integration with CAD and VMS systems</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Edge Computing</h3>
+                    <p>Onboard AI inference enables real-time decision-making without cloud dependency.</p>
+                    <ul>
+                        <li>Instant object detection and classification</li>
+                        <li>Operational continuity in degraded networks</li>
+                        <li>Reduced latency for critical decisions</li>
+                        <li>Functions when infrastructure fails</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Platform</span>
+                <h2 class="section-title">The AETHER Fleet</h2>
+                <p class="section-description">Purpose-built platforms leveraging proven Indian drone technology for diverse mission requirements.</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Flight Time</th>
+                            <th>Payload</th>
+                            <th>Range</th>
+                            <th>Primary Mission</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AETHER Surveyor</td>
+                            <td>Quadcopter VTOL</td>
+                            <td>90+ min</td>
+                            <td>5 kg</td>
+                            <td>10+ km</td>
+                            <td>Wide-area mapping, 3D reconstruction, damage assessment</td>
+                        </tr>
+                        <tr>
+                            <td>AETHER Stork</td>
+                            <td>Delivery Drone</td>
+                            <td>40-50 min</td>
+                            <td>25 kg</td>
+                            <td>15+ km</td>
+                            <td>Medical supplies, food, water, equipment delivery</td>
+                        </tr>
+                        <tr>
+                            <td>AETHER Sentinel</td>
+                            <td>Quadcopter VTOL</td>
+                            <td>50 min</td>
+                            <td>4 kg</td>
+                            <td>10 km</td>
+                            <td>Real-time ISR, search & rescue, first responder overwatch</td>
+                        </tr>
+                        <tr>
+                            <td>AETHER Guardian</td>
+                            <td>Tethered Drone</td>
+                            <td>8+ hours</td>
+                            <td>30 kg</td>
+                            <td>100 m</td>
+                            <td>Continuous monitoring, temporary communications relay</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Outputs -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Impact</span>
+                <h2 class="section-title">Expected Outputs & Outcomes</h2>
+                <p class="section-description">Measurable improvements in emergency response effectiveness backed by global deployment data.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">35-50%</div>
+                    <div class="stat-label">Response Time Improvement</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">78%</div>
+                    <div class="stat-label">Data Accuracy Increase</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Cost Reduction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">93%</div>
+                    <div class="stat-label">Faster Scene Arrival</div>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Performance Comparison: Traditional vs AETHER</div>
+                <canvas id="performanceChart"></canvas>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Flood & Cyclone Response</h3>
+                    <p>Surveyor drones rapidly map flood extent while Sentinels identify stranded individuals. Stork drones deliver supplies to isolated communities.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Earthquake & Landslide</h3>
+                    <p>Sentinel drones navigate collapsed structures to locate survivors. Surveyor conducts structural stability assessment and landslide risk identification.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Fire Response</h3>
+                    <p>Thermal cameras see through smoke to identify hotspots and track fire spread, enabling effective resource deployment before crews enter.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Medical Logistics</h3>
+                    <p>Stork establishes dedicated corridors to serve remote regions, delivering time-sensitive medical supplies including vaccines and blood products.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Urban Search & Rescue</h3>
+                    <p>Sentinel drones with thermal imaging conduct building-to-building searches in urban disaster zones, identifying survivors trapped in debris or isolated areas.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Infrastructure Assessment</h3>
+                    <p>Surveyor drones with LiDAR create detailed 3D models of damaged bridges, roads, and critical infrastructure for rapid engineering analysis and repair prioritization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Value</span>
+                <h2 class="section-title">Benefits Analysis</h2>
+                <p class="section-description">Quantifiable value delivery for government agencies and sustainable returns for AETHER.</p>
+            </div>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <h3>For Government Agencies</h3>
+                    <ul>
+                        <li>Reduced victim location time increases survival rates during critical golden hour</li>
+                        <li>Enhanced safety eliminates blind entry into hazardous zones</li>
+                        <li>Mitigated economic losses through faster containment and response</li>
+                        <li>Accelerated recovery via rapid accurate damage assessments</li>
+                        <li>Predictable operating costs with all-inclusive DaaS model</li>
+                        <li>Zero infrastructure investment required</li>
+                        <li>Continuous technology upgrades included</li>
+                        <li>Complete regulatory compliance handled by AETHER</li>
+                        <li>Scalable on demand without asset depreciation</li>
+                    </ul>
+                </div>
+                <div class="col-card">
+                    <h3>For AETHER (Company)</h3>
+                    <ul>
+                        <li>Recurring revenue creates stable, predictable cash flow</li>
+                        <li>High customer retention from mission-critical integration</li>
+                        <li>Reduced sales cycle through lower procurement barriers</li>
+                        <li>Continuous value capture from ongoing improvements</li>
+                        <li>Market leadership position in rapidly growing segment</li>
+                        <li>Preferential treatment from policy alignment</li>
+                        <li>Adjacent market expansion opportunities</li>
+                        <li>Valuable operational data asset creation</li>
+                        <li>Strategic partnership enablement</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Economic Value Proposition:</strong> Karnataka's ₹1.22 lakh crore in losses (2015-2021) demonstrates the economic burden that improved response can address. Even marginal improvements in containment efficiency generate returns that dwarf service subscription costs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Opportunity</span>
+                <h2 class="section-title">Market Landscape</h2>
+                <p class="section-description">India represents the fastest-growing emergency drone market globally with strong government support.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">$1.39B</div>
+                    <div class="stat-label">Indian Market by 2030</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24.4%</div>
+                    <div class="stat-label">Overall CAGR</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$14.9B</div>
+                    <div class="stat-label">Global Emergency Market 2035</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15.7%</div>
+                    <div class="stat-label">India's Growth (Fastest)</div>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Indian Emergency Drone Market Forecast (2025-2030)</div>
+                <canvas id="marketChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Model -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Model</span>
+                <h2 class="section-title">Drones-as-a-Service</h2>
+                <p class="section-description">Tiered subscription model removes capital barriers while ensuring continuous platform evolution.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Tier 1: Essential</h3>
+                    <p><strong>Target:</strong> Small municipalities, district departments</p>
+                    <ul>
+                        <li>Command Platform access</li>
+                        <li>On-demand flight hours</li>
+                        <li>Patrol-led deployments</li>
+                        <li>Basic analytics (HD maps)</li>
+                        <li>Standard support</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Tier 2: Advanced</h3>
+                    <p><strong>Target:</strong> State agencies, larger municipalities</p>
+                    <ul>
+                        <li>All Essential features</li>
+                        <li>AI-powered analytics suite</li>
+                        <li>Swarm coordination</li>
+                        <li>Automated detection</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Tier 3: Enterprise</h3>
+                    <p><strong>Target:</strong> NDMA, major SDRFs, national agencies</p>
+                    <ul>
+                        <li>Dock-based DFR network</li>
+                        <li>Dedicated fleet & team</li>
+                        <li>Custom AI development</li>
+                        <li>National system integration</li>
+                        <li>24/7 premium support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Roadmap</span>
+                <h2 class="section-title">Phased Implementation</h2>
+                <p class="section-description">Strategic deployment beginning with Karnataka pilot to validate technology and build national case study.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Phase 1: Development & Regulatory Approvals</h3>
+                        <p class="timeline-meta">Months 1-9 (Q1-Q4 2026)</p>
+                        <p>Establish technological and regulatory foundation for deployment.</p>
+                        <ul>
+                            <li>Finalize hardware partnerships with Indian drone OEMs</li>
+                            <li>Complete AETHER Command Platform v1.0 development</li>
+                            <li>Secure DGCA Type Certifications for entire fleet</li>
+                            <li>Establish certified Remote Pilot Training Organization</li>
+                            <li>Submit BVLOS operational waiver applications</li>
+                        </ul>
+                        <p><strong>KPIs:</strong> All models Type Certified, ACP passes security audits, BVLOS application submitted</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Phase 2: Karnataka Pilot Deployment</h3>
+                        <p class="timeline-meta">Months 10-24 (Q1 2027 - Q3 2028)</p>
+                        <p>On-ground operational validation in partnership with state agencies.</p>
+                        <ul>
+                            <li>Formalize partnership with Karnataka State Disaster Management Authority</li>
+                            <li>Deploy dock-based DFR network in Bengaluru flood zones</li>
+                            <li>Assign patrol-led Sentinel drones to Traffic Police</li>
+                            <li>Place Surveyor and Stork units with state SDRF</li>
+                            <li>Conduct 500+ operational flight hours with data collection</li>
+                            <li>Measure response time, coverage, accuracy, and cost metrics</li>
+                        </ul>
+                        <p><strong>KPIs:</strong> 40% response time improvement, 500+ flight hours, comprehensive ROI documentation</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Phase 3: National Scale-Up</h3>
+                        <p class="timeline-meta">Months 25+ (Q4 2028 onwards)</p>
+                        <p>Leverage pilot success for national expansion and market leadership.</p>
+                        <ul>
+                            <li>Develop comprehensive case study from Karnataka pilot</li>
+                            <li>Present findings to NDMA and Ministry of Home Affairs</li>
+                            <li>Engage high-vulnerability states (Odisha, Andhra Pradesh, Uttarakhand)</li>
+                            <li>Secure long-term multi-year DaaS contracts</li>
+                            <li>Execute phased national rollout with fleet expansion</li>
+                        </ul>
+                        <p><strong>KPIs:</strong> National contract with NDMA, 3+ state SDRF contracts, new territory operations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Governance -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Compliance</span>
+                <h2 class="section-title">Governance & Ethics</h2>
+                <p class="section-description">Regulatory adherence and ethical framework ensuring public trust and accountability.</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Regulatory Compliance</h3>
+                    <p>Complete adherence to DGCA Drone Rules 2021 and aviation standards.</p>
+                    <ul>
+                        <li>Type Certificate for all platforms</li>
+                        <li>Digital Sky registration & UIN</li>
+                        <li>NPNT protocol compliance</li>
+                        <li>Certified pilot training</li>
+                        <li>BVLOS approval process</li>
+                        <li>ATC & IAF coordination</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Ethical Framework</h3>
+                    <p>Built on Government of India AI policy principles for responsible deployment.</p>
+                    <ul>
+                        <li>Purpose limited to emergency response only</li>
+                        <li>Data minimization to mission-essential only</li>
+                        <li>End-to-end encryption always</li>
+                        <li>Public disclosure for transparency</li>
+                        <li>Human-in-the-loop oversight</li>
+                        <li>Accessible citizen redressal mechanism</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Data Protection</h3>
+                    <p>Comprehensive security measures for all operational data and privacy.</p>
+                    <ul>
+                        <li>Secure flight data archiving</li>
+                        <li>Access controls with audit logging</li>
+                        <li>Data residency compliance</li>
+                        <li>Regular security audits</li>
+                        <li>Incident response protocols</li>
+                        <li>Privacy impact assessments</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Building Public Trust:</strong> AETHER proactively establishes ethical frameworks and transparent operations to set the national standard for responsible use of AI in public service.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Investment</span>
+                <h2 class="section-title">Strategic Rationale</h2>
+                <p class="section-description">Compelling returns driven by market growth, recurring revenue, and quantifiable social impact.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">24.4%</div>
+                    <div class="stat-label">Market CAGR</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Recurring</div>
+                    <div class="stat-label">Revenue Model</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3-5 Years</div>
+                    <div class="stat-label">Contract Duration</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">First Mover</div>
+                    <div class="stat-label">Market Position</div>
+                </div>
+            </div>
+<!-- ROI & Cost Charts -->
+<div class="chart-wrapper">
+    <div class="chart-title">Projected ROI Over 5 Years</div>
+    <canvas id="roiChart"></canvas>
+</div>
+
+<div class="chart-wrapper">
+    <div class="chart-title">AETHER Operational Cost Breakdown</div>
+    <canvas id="costChart"></canvas>
+</div>
+
+            <div class="two-col">
+                <div class="col-card">
+                    <h3>Market Drivers</h3>
+                    <ul>
+                        <li>Explosive growth: 24.4% CAGR with emergency segment at 15.7% (fastest globally)</li>
+                        <li>Government support: PLI scheme and "Make in India" creating preferential procurement</li>
+                        <li>Demonstrated need: ₹1.22 lakh crore Karnataka damages validates urgent requirement</li>
+                        <li>Technology maturity: AI capabilities now deliver transformative performance</li>
+                    </ul>
+                </div>
+                <div class="col-card">
+                    <h3>Competitive Advantages</h3>
+                    <ul>
+                        <li>End-to-end integration: Only comprehensive AI-native DFR platform available</li>
+                        <li>Domestic sovereignty: Alignment with national priorities creates procurement edge</li>
+                        <li>Service model: DaaS removes barriers and creates strong customer lock-in</li>
+                        <li>Proven benchmarks: Design based on successful global implementations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Return on Investment:</strong> AETHER offers exposure to high-growth sector with defensible technology moat and predictable recurring revenue. The quantifiable benefits—40% cost reduction, 35-50% faster response—demonstrate clear value creation justifying premium pricing and sustainable margins.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 16px;">&copy; 2025 Project AETHER</p>
+            <p>Redefining Resilience for a Nation</p>
+            <p style="margin-top: 20px; font-size: 0.9rem;">A sovereign AI-native platform engineered for India's emergency response ecosystem</p>
+        </div>
+    </footer>
+
+    <script>
+        // Performance Chart
+        const perfCtx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(perfCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Response Time', 'Data Accuracy', 'Cost Efficiency', 'Area Coverage'],
+                datasets: [{
+                    label: 'Traditional Methods',
+                    data: [100, 100, 100, 100],
+                    backgroundColor: 'rgba(148, 163, 184, 0.5)',
+                    borderColor: 'rgba(148, 163, 184, 1)',
+                    borderWidth: 2
+                }, {
+                    label: 'AETHER Platform',
+                    data: [50, 178, 60, 142],
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#f8fafc',
+                            font: { size: 14, weight: '600' },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 20, 25, 0.95)',
+                        titleColor: '#f8fafc',
+                        bodyColor: '#94a3b8',
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { 
+                            color: '#94a3b8',
+                            font: { size: 12 },
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: { color: 'rgba(51, 65, 85, 0.3)' }
+                    },
+                    x: {
+                        ticks: { 
+                            color: '#94a3b8',
+                            font: { size: 12 }
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Market Chart
+        const mktCtx = document.getElementById('marketChart').getContext('2d');
+        new Chart(mktCtx, {
+            type: 'line',
+            data: {
+                labels: ['2025', '2026', '2027', '2028', '2029', '2030'],
+                datasets: [{
+                    label: 'Total Indian Drone Market (USD Million)',
+                    data: [470, 585, 730, 900, 1120, 1390],
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }, {
+                    label: 'Emergency Segment (USD Million)',
+                    data: [94, 128, 175, 225, 291, 375],
+                    borderColor: 'rgba(96, 165, 250, 1)',
+                    backgroundColor: 'rgba(96, 165, 250, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: 'rgba(96, 165, 250, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#f8fafc',
+                            font: { size: 14, weight: '600' },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 20, 25, 0.95)',
+                        titleColor: '#f8fafc',
+                        bodyColor: '#94a3b8',
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { 
+                            color: '#94a3b8',
+                            font: { size: 12 },
+                            callback: function(value) {
+                                return  value + 'M';
+                            }
+                        },
+                        grid: { color: 'rgba(51, 65, 85, 0.3)' }
+                    },
+                    x: {
+                        ticks: { 
+                            color: '#94a3b8',
+                            font: { size: 12 }
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+// ROI Chart
+const roiCtx = document.getElementById('roiChart').getContext('2d');
+new Chart(roiCtx, {
+    type: 'line',
+    data: {
+        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+        datasets: [{
+            label: 'Traditional Model ROI (%)',
+            data: [5, 12, 18, 22, 27],
+            borderColor: 'rgba(148, 163, 184, 1)',
+            backgroundColor: 'rgba(148, 163, 184, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5
+        }, {
+            label: 'AETHER ROI (%)',
+            data: [15, 35, 60, 95, 140],
+            borderColor: 'rgba(59, 130, 246, 1)',
+            backgroundColor: 'rgba(59, 130, 246, 0.15)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#f8fafc',
+                    font: { size: 14, weight: '600' },
+                    padding: 20
+                }
+            },
+            tooltip: {
+                backgroundColor: 'rgba(15, 20, 25, 0.95)',
+                titleColor: '#f8fafc',
+                bodyColor: '#94a3b8',
+                borderColor: '#334155',
+                borderWidth: 1
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { color: '#94a3b8', callback: v => v + '%' },
+                grid: { color: 'rgba(51,65,85,0.3)' }
+            },
+            x: { ticks: { color: '#94a3b8' } }
+        }
+    }
+});
+
+// Cost Breakdown Pie Chart
+const costCtx = document.getElementById('costChart').getContext('2d');
+new Chart(costCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Hardware & Fleet', 'AI/Software', 'Maintenance', 'Logistics', 'Training & Compliance'],
+        datasets: [{
+            data: [35, 25, 15, 15, 10],
+            backgroundColor: [
+                'rgba(59,130,246,0.8)',
+                'rgba(96,165,250,0.8)',
+                'rgba(147,197,253,0.8)',
+                'rgba(191,219,254,0.8)',
+                'rgba(226,232,240,0.8)'
+            ],
+            borderColor: '#0f1419',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color: '#f8fafc',
+                    font: { size: 14, weight: '600' }
+                }
+            },
+            tooltip: {
+                backgroundColor: 'rgba(15, 20, 25, 0.95)',
+                titleColor: '#f8fafc',
+                bodyColor: '#94a3b8',
+                borderColor: '#334155',
+                borderWidth: 1
+            }
+        }
+    }
+});
+
+    </script>
+</body>
+</html>
