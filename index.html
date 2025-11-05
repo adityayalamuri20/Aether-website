@@ -1680,6 +1680,26 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+    <script>
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault(); // stop browser from adding # to URL
+    const targetId = this.getAttribute('href').substring(1);
+    const target = document.getElementById(targetId);
+    if (target) {
+      window.scrollTo({
+        top: target.offsetTop - 80, // adjust for navbar height
+        behavior: 'smooth'
+      });
+    }
+
+    // Close mobile menu after click (optional)
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.remove('active');
+  });
+});
+</script>
+
 </body>
 </html>
 
